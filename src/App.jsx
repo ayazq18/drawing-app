@@ -126,9 +126,6 @@ function App() {
             element={
               isLoggedIn ? (
                 <>
-                  {/* <Card sx={{ p: 2, mb: 2 }}>
-                    <Typography variant="h6">My Drawing Pad</Typography>
-                  </Card> */}
                   <NavBar/>
                   <Box sx={{ display: 'flex', flexDirection: { xs: 'column', md: 'row' } }}>
                     <Toolbar
