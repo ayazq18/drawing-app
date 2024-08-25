@@ -2,9 +2,13 @@ import React, { useEffect, useRef, useState } from 'react';
 import io from 'socket.io-client';
 import Toolbar from './components/toolBar';
 import Canvas from './components/canvas';
-import { Box } from '@mui/material';
+import { Box, Card, Typography } from '@mui/material';
 
-const socket = io('http://localhost:5000');
+const socket = io(
+  window.location.hostname === 'localhost'
+    ? import.meta.env.VITE_LOCAL_ORIGIN
+    : import.meta.env.VITE_PROD_ORIGIN
+);
 
 function App() {
   const [color, setColor] = useState('#000000');
@@ -14,6 +18,26 @@ function App() {
   const canvasRef = useRef(null);
 
   useEffect(() => {
+    // Initialize drawing data when connecting to the server
+    socket.on('init-drawing-data', (storedDrawingData) => {
+      const canvas = canvasRef.current;
+      if (canvas) {
+        const context = canvas.getContext('2d');
+        storedDrawingData.forEach((data) => {
+          context.lineWidth = data.brushSize;
+          context.strokeStyle = data.color;
+          context.lineJoin = 'round';
+          context.lineCap = 'round';
+          context.globalCompositeOperation = data.isErasing ? 'destination-out' : 'source-over';
+          context.beginPath();
+          context.moveTo(data.prevX, data.prevY);
+          context.lineTo(data.currX, data.currY);
+          context.stroke();
+        });
+      }
+    });
+
+    // Handle incoming drawing data
     socket.on('drawing-data', (data) => {
       const canvas = canvasRef.current;
       if (canvas) {
@@ -32,6 +56,7 @@ function App() {
       }
     });
 
+    // Handle clear canvas event
     socket.on('clear-canvas', () => {
       const canvas = canvasRef.current;
       if (canvas) {
@@ -40,8 +65,9 @@ function App() {
       }
     });
 
-    // Cleanup the data when component unmount
+    // Cleanup when component unmounts
     return () => {
+      socket.off('init-drawing-data');
       socket.off('drawing-data');
       socket.off('clear-canvas');
     };
@@ -55,9 +81,14 @@ function App() {
   }, [clearCanvas]);
 
   return (
-    <Box sx={{display:'flex', flexDirection:{xs:'column', md:'row'}}} >
-      <Toolbar setColor={setColor} setBrushSize={setBrushSize} setIsErasing={setIsErasing} isErasing={isErasing} setClearCanvas={setClearCanvas} />
-      <Canvas ref={canvasRef} socket={socket} color={color} brushSize={brushSize} isErasing={isErasing} clearCanvas={clearCanvas} />
+    <Box sx={{ position: 'relative', }}>
+      <Card sx={{ p: 2, mb: 2 }}>
+        <Typography variant='h6'>My Drawing Pad</Typography>
+      </Card>
+      <Box sx={{ display: 'flex', flexDirection: { xs: 'column', md: 'row', } }} >
+        <Toolbar setColor={setColor} setBrushSize={setBrushSize} setIsErasing={setIsErasing} isErasing={isErasing} setClearCanvas={setClearCanvas} />
+        <Canvas ref={canvasRef} socket={socket} color={color} brushSize={brushSize} isErasing={isErasing} clearCanvas={clearCanvas} />
+      </Box>
     </Box>
   );
 }

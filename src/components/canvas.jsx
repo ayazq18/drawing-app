@@ -54,25 +54,6 @@ const Canvas = forwardRef(({ socket, color, brushSize, isErasing, clearCanvas },
     socket.emit('clear-canvas');
   };
 
-  useEffect(() => {
-    const canvas = ref?.current;
-    if (canvas) {
-      canvas.width = window.innerWidth * 0.5;
-      canvas.height = window.innerHeight * 0.8;
-      canvas.style.width = `${window.innerWidth * 0.5}px`;
-      canvas.style.height = `${window.innerHeight * 0.8}px`;
-
-      // Draw grid
-      drawGrid(canvas.getContext('2d'));
-    }
-  }, [ref]);
-
-  useEffect(() => {
-    if (clearCanvas) {
-      handleClear();
-    }
-  }, [clearCanvas]);
-
   const drawGrid = (context) => {
     const step = 20;
     context.strokeStyle = '#eee';
@@ -90,6 +71,27 @@ const Canvas = forwardRef(({ socket, color, brushSize, isErasing, clearCanvas },
       context.stroke();
     }
   };
+
+  useEffect(() => {
+    const canvas = ref?.current;
+    if (canvas) {
+      canvas.width = window.innerWidth * 0.8;
+      canvas.height = window.innerHeight * 0.8;
+      canvas.style.width = `${window.innerWidth * 0.7}px`;
+      canvas.style.height = `${window.innerHeight * 0.8}px`;
+
+      // Draw grid
+      drawGrid(canvas.getContext('2d'));
+    }
+  }, [ref]);
+
+  useEffect(() => {
+    if (clearCanvas) {
+      handleClear();
+    }
+  }, [clearCanvas]);
+
+ 
 
   return (
     <canvas
