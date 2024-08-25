@@ -1,8 +1,11 @@
+import { useMediaQuery } from '@mui/material';
 import React, { useRef, useEffect, useState, forwardRef } from 'react';
 
 const Canvas = forwardRef(({ socket, color, brushSize, isErasing, clearCanvas }, ref) => {
   const [drawing, setDrawing] = useState(false);
   const [prevPos, setPrevPos] = useState({ x: 0, y: 0 });
+
+  const isSmallScreen = useMediaQuery((theme) => theme.breakpoints.down('sm'));
 
   const startDrawing = (e) => {
     setDrawing(true);
@@ -15,6 +18,19 @@ const Canvas = forwardRef(({ socket, color, brushSize, isErasing, clearCanvas },
 
     const { offsetX, offsetY } = e.nativeEvent;
     const context = ref.current.getContext('2d');
+    
+    // Scale the coordinates to match the canvas size
+    const scaleX = ref.current.width / ref.current.offsetWidth;
+    const scaleY = ref.current.height / ref.current.offsetHeight;
+    
+    const scaledPrevPos = {
+      x: prevPos.x * scaleX,
+      y: prevPos.y * scaleY,
+    };
+    const scaledCurrPos = {
+      x: offsetX * scaleX,
+      y: offsetY * scaleY,
+    };
 
     context.lineWidth = brushSize;
     context.lineJoin = 'round';
@@ -29,15 +45,15 @@ const Canvas = forwardRef(({ socket, color, brushSize, isErasing, clearCanvas },
     }
 
     context.beginPath();
-    context.moveTo(prevPos.x, prevPos.y);
-    context.lineTo(offsetX, offsetY);
+    context.moveTo(scaledPrevPos.x, scaledPrevPos.y);
+    context.lineTo(scaledCurrPos.x, scaledCurrPos.y);
     context.stroke();
 
     socket.emit('drawing-data', {
-      prevX: prevPos.x,
-      prevY: prevPos.y,
-      currX: offsetX,
-      currY: offsetY,
+      prevX: scaledPrevPos.x,
+      prevY: scaledPrevPos.y,
+      currX: scaledCurrPos.x,
+      currY: scaledCurrPos.y,
       color,
       brushSize,
       isErasing,
@@ -72,26 +88,31 @@ const Canvas = forwardRef(({ socket, color, brushSize, isErasing, clearCanvas },
     }
   };
 
-  useEffect(() => {
-    const canvas = ref?.current;
+  const resizeCanvas = () => {
+    const canvas = ref.current;
     if (canvas) {
-      canvas.width = window.innerWidth * 0.8;
-      canvas.height = window.innerHeight * 0.8;
-      canvas.style.width = `${window.innerWidth * 0.7}px`;
-      canvas.style.height = `${window.innerHeight * 0.8}px`;
+      canvas.width = canvas.clientWidth;
+      canvas.height = canvas.clientHeight;
 
-      // Draw grid
-      drawGrid(canvas.getContext('2d'));
+      const context = canvas.getContext('2d');
+      drawGrid(context);
     }
-  }, [ref]);
+  };
+
+  useEffect(() => {
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas(); // Initial call to set up the canvas size
+
+    return () => {
+      window.removeEventListener('resize', resizeCanvas);
+    };
+  }, []);
 
   useEffect(() => {
     if (clearCanvas) {
       handleClear();
     }
   }, [clearCanvas]);
-
- 
 
   return (
     <canvas
@@ -105,6 +126,7 @@ const Canvas = forwardRef(({ socket, color, brushSize, isErasing, clearCanvas },
         borderRadius: '8px',
         boxShadow: '0 4px 8px rgba(0,0,0,0.2)',
         position: 'relative',
+        width: `${isSmallScreen ? '90vw' : '70vw'}`,
       }}
     />
   );
