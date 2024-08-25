@@ -20,6 +20,8 @@ function App() {
   const [clearCanvas, setClearCanvas] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const canvasRef = useRef(null);
+  const [undoStack, setUndoStack] = useState([]);
+  const [redoStack, setRedoStack] = useState([]);
 
   useEffect(() => {
     const initializeSocket = async () => {
@@ -30,8 +32,13 @@ function App() {
           window.location.hostname === 'localhost'
             ? import.meta.env.VITE_LOCAL_ORIGIN
             : import.meta.env.VITE_PROD_ORIGIN,
-          { query: { token } }
+          {
+            path: '/socket.io',
+            query: { token },
+            secure: true, // For HTTPS connections
+          }
         );
+
 
         socket.on('init-drawing-data', (storedDrawingData) => {
           const canvas = canvasRef.current;
@@ -48,6 +55,7 @@ function App() {
           if (canvas) {
             const context = canvas.getContext('2d');
             drawOnCanvas(context, data);
+            setUndoStack((prev) => [...prev, data]);
           }
         });
 
@@ -56,10 +64,12 @@ function App() {
           if (canvas) {
             const context = canvas.getContext('2d');
             context.clearRect(0, 0, canvas.width, canvas.height);
+            setUndoStack([]);
+            setRedoStack([]);
           }
         });
 
-        setSelectedShape(localStorage.getItem('shape'));
+        setSelectedShape(localStorage.getItem('shape') && localStorage.getItem('shape'));
       }
     };
 
@@ -91,6 +101,29 @@ function App() {
     context.stroke();
   };
 
+  const undo = () => {
+    if (undoStack.length === 0) return;
+    const lastAction = undoStack.pop();
+    setRedoStack((prev) => [...prev, lastAction]);
+    redrawCanvas(undoStack);
+  };
+
+  const redo = () => {
+    if (redoStack.length === 0) return;
+    const lastUndone = redoStack.pop();
+    setUndoStack((prev) => [...prev, lastUndone]);
+    redrawCanvas([...undoStack, lastUndone]);
+  };
+
+  const redrawCanvas = (actions) => {
+    const canvas = canvasRef.current;
+    if (canvas) {
+      const context = canvas.getContext('2d');
+      context.clearRect(0, 0, canvas.width, canvas.height);
+      actions.forEach((action) => drawOnCanvas(context, action));
+    }
+  };
+
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
@@ -105,7 +138,7 @@ function App() {
 
   return (
     <Router>
-      <Box sx={{ position: 'relative' }}>
+       <Box sx={{ position: 'relative' }}>
         <Routes>
           <Route
             path="/"
@@ -126,16 +159,18 @@ function App() {
             element={
               isLoggedIn ? (
                 <>
-                  <NavBar/>
+                  <NavBar />
                   <Box sx={{ display: 'flex', flexDirection: { xs: 'column', md: 'row' } }}>
                     <DrawingToolbar
                       setColor={setColor}
                       setBrushSize={setBrushSize}
                       setIsErasing={setIsErasing}
                       isErasing={isErasing}
-                      selectedShape={selectedShape}
+                      SelectedShape={selectedShape}
                       setSelectedShape={setSelectedShape}
                       setClearCanvas={setClearCanvas}
+                      undo={undo}
+                      redo={redo}
                     />
                     <Canvas
                       ref={canvasRef}
@@ -154,7 +189,7 @@ function App() {
           />
           <Route path="/register" element={<Register />} />
         </Routes>
-      </Box>
+        </Box>
     </Router>
   );
 }

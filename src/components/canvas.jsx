@@ -122,9 +122,9 @@ const Canvas = forwardRef(({ socket, color, brushSize, isErasing, clearCanvas },
       onMouseUp={stopDrawing}
       onMouseLeave={stopDrawing}
       style={{
-        border: '2px solid #000',
+        // border: '0.5px solid #000',
         borderRadius: '8px',
-        boxShadow: '0 4px 8px rgba(0,0,0,0.2)',
+        boxShadow: '1px 1px 4px #6965db',
         position: 'relative',
         width: `${isSmallScreen ? '90vw' : '70vw'}`,
       }}
