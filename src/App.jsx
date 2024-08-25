@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
 import io from 'socket.io-client';
-import Toolbar from './components/toolBar';
 import Canvas from './components/canvas';
 import { Box, Card, Typography } from '@mui/material';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
@@ -9,6 +8,7 @@ import Register from './components/register';
 import { onAuthStateChanged, getIdToken } from 'firebase/auth';
 import { auth } from './components/fireBase';
 import NavBar from './components/navBar';
+import DrawingToolbar from './components/toolBar';
 
 let socket;
 
@@ -128,7 +128,7 @@ function App() {
                 <>
                   <NavBar/>
                   <Box sx={{ display: 'flex', flexDirection: { xs: 'column', md: 'row' } }}>
-                    <Toolbar
+                    <DrawingToolbar
                       setColor={setColor}
                       setBrushSize={setBrushSize}
                       setIsErasing={setIsErasing}

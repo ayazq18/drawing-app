@@ -3,7 +3,7 @@ import { Box, Slider, IconButton, Stack, Card } from '@mui/material';
 import ColorPicker from './colorPicker';
 import { Icon } from '@iconify/react';
 
-const Toolbar = ({ setColor, setBrushSize, setIsErasing, isErasing, setClearCanvas, undo, redo, SelectedShape, setSelectedShape }) => {
+const DrawingToolbar = ({ setColor, setBrushSize, setIsErasing, isErasing, setClearCanvas, undo, redo, SelectedShape, setSelectedShape }) => {
 
   const selectBtn = (shape)=>{
     setSelectedShape(shape)
@@ -60,4 +60,4 @@ const Toolbar = ({ setColor, setBrushSize, setIsErasing, isErasing, setClearCanv
   );
 };
 
-export default Toolbar;
+export default DrawingToolbar;
