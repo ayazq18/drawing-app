@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import io from 'socket.io-client';
-import Toolbar from './components/toolbar';
+import Toolbar from './components/toolBar';
 import Canvas from './components/canvas';
 import { Box, Card, Typography } from '@mui/material';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
