@@ -5,12 +5,13 @@ import { Box, Button, TextField, Typography, Container, Alert, Stack } from "@mu
 import { useNavigate } from "react-router-dom";
 import { useSnackbar } from 'notistack';
 
+
 const Login = ({ onLoginSuccess }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const navigate = useNavigate();
-  const { enqueueSnackbar } = useSnackbar(); // Hook to show snackbar
+  const { enqueueSnackbar } = useSnackbar();
 
   const handleLogin = async (e) => {
     e.preventDefault();
