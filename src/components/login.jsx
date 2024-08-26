@@ -52,9 +52,15 @@ const Login = ({ onLoginSuccess }) => {
         }}
       >
         <Stack direction='row' alignItems='center' gap={2}>
-          <IconButton sx={{ width: '40px', color: 'white' }}>
-            <Icon icon="vscode-icons:file-type-excalidraw" />
-          </IconButton>
+
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="38" height="38">
+            <rect x="32" y="48" width="192" height="160" rx="16" ry="16" fill="#f9d423" stroke="#000" stroke-width="6" />
+            <line x1="80" y1="48" x2="80" y2="208" stroke="#000" stroke-width="6" stroke-linecap="round" />
+            <line x1="176" y1="48" x2="176" y2="208" stroke="#000" stroke-width="6" stroke-linecap="round" />
+            <path d="M40 48 q48 -40 176 0" fill="none" stroke="#000" stroke-width="6" stroke-linecap="round" />
+            <path d="M40 208 q48 40 176 0" fill="none" stroke="#000" stroke-width="6" stroke-linecap="round" />
+          </svg>
+
           <Typography variant="h4" component="h1" gutterBottom>
             Login
           </Typography>
