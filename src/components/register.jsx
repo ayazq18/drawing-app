@@ -22,15 +22,16 @@ const Register = () => {
         setSuccess('');
 
         if (password !== confirmPassword) {
-            setError("Passwords do not match");
+            // setError("Passwords do not match");
             enqueueSnackbar('Passwords do not match!', { variant: 'error' });
             return;
         }
 
         try {
             await createUserWithEmailAndPassword(auth, email, password);
-            setSuccess("Registration successful! You can now log in.");
+            // setSuccess("Registration successful! You can now log in.");
             enqueueSnackbar('Registration successful! You can now log in.', { variant: 'success' });
+            navigate('/drawing-pad')
         } catch (err) {
             setError(err.message);
         }
