@@ -22,6 +22,7 @@ const Login = ({ onLoginSuccess }) => {
       onLoginSuccess();
     } catch (err) {
       setError(err.message);
+      enqueueSnackbar('Enter correct credentials!', { variant: 'error' });
     }
   };
 

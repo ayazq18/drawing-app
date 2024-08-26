@@ -24,7 +24,7 @@ function App() {
   const [undoStack, setUndoStack] = useState([]);
   const [redoStack, setRedoStack] = useState([]);
   const [textSettings, setTextSettings] = useState({});
-
+console.log(undoStack)
   useEffect(() => {
     const initializeSocket = async () => {
       const user = auth.currentUser;

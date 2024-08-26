@@ -20,7 +20,6 @@ const Canvas = forwardRef(({ socket, color, brushSize, isErasing, clearCanvas },
     const { offsetX, offsetY } = e.nativeEvent;
     const context = ref.current.getContext('2d');
 
-    // Scale the coordinates to match the canvas size
     const scaleX = ref.current.width / ref.current.offsetWidth;
     const scaleY = ref.current.height / ref.current.offsetHeight;
 
@@ -61,7 +60,7 @@ const Canvas = forwardRef(({ socket, color, brushSize, isErasing, clearCanvas },
     });
 
     setPrevPos({ x: offsetX, y: offsetY });
-  }, 10); // Throttle the draw function to improve performance
+  }, 10); 
 
   const stopDrawing = () => setDrawing(false);
 
@@ -102,7 +101,7 @@ const Canvas = forwardRef(({ socket, color, brushSize, isErasing, clearCanvas },
 
   useEffect(() => {
     window.addEventListener('resize', resizeCanvas);
-    resizeCanvas(); // Initial call to set up the canvas size
+    resizeCanvas(); 
 
     return () => {
       window.removeEventListener('resize', resizeCanvas);
@@ -127,7 +126,7 @@ const Canvas = forwardRef(({ socket, color, brushSize, isErasing, clearCanvas },
         boxShadow: '1px 1px 4px #6965db',
         position: 'relative',
         width: `${isSmallScreen ? '90vw' : '70vw'}`,
-        height: '80vh', // Ensure it scales properly in height
+        height: '80vh', 
       }}
     />
   );

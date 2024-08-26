@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Box, TextField, Slider, IconButton, InputLabel, MenuItem, Select, FormControl } from '@mui/material';
+import { Box, TextField, Slider, IconButton,  } from '@mui/material';
 import ColorPicker from './colorPicker';
 
 const TextInput = ({ setTextSettings, setSelectedShape }) => {

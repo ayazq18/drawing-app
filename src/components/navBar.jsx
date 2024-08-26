@@ -20,10 +20,8 @@ const StaggeredText = styled('div')(({ theme }) => ({
   fontWeight: 'bold',
   fontSize: '1.5rem',
   color: 'white',
-  // background: 'linear-gradient(90deg, #ff6f61, #de1f6e)', // Gradient text background
   WebkitBackgroundClip: 'text',
   color: '#d0021b',
-  // textShadow: '1px 1px 2px rgba(0, 0, 0, 0.7)', // Add shadow for better readability
   '& span': {
     display: 'inline-block',
     opacity: 0,
@@ -38,7 +36,7 @@ const AnimatedText = ({ text }) => {
         <span
           key={index}
           style={{
-            animationDelay: `${index * 0.1}s`, // Stagger animation delay
+            animationDelay: `${index * 0.1}s`, 
           }}
         >
           {char}
@@ -90,9 +88,11 @@ function NavBar() {
             bgcolor: '#e64a19',
           },
           color: 'white',
-          fontWeight: 'bold',
         }}
       >
+        <IconButton sx={{mr:1, color:'white'}}>
+        <Icon icon="iconamoon:profile-circle-fill" />
+        </IconButton>
         Logout
       </Button>
     </Card>
