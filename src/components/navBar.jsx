@@ -86,7 +86,7 @@ function NavBar({userCount}) {
       </Stack>
 
       <Box sx={{ display: 'flex', justifyContent: 'space-between', gap:2, p:1, alignItems: 'center', color:'black',bgcolor:'#a8cbee', boxShadow: '0px 1px 4px #6965db' }}>
-        <Typography variant="h6" sx={{display: {xs:'none'}}}>Live Users:</Typography>
+        <Typography variant="h6" sx={{display: {xs:'none', md:'block'}}}>Live Users:</Typography>
         <Typography sx={{p:1, bgcolor:'#6965db', color:'white' }}>{userCount}</Typography>
       </Box>
 
