@@ -32,8 +32,12 @@ const DrawingToolbar = ({ setColor, setBrushSize, setIsErasing, isErasing, setCl
           <Icon icon="solar:eraser-bold-duotone" />
         </IconButton>
 
-        <IconButton onClick={() => {setIsErasing(false), selectBtn('freeDraw')}} color="primary" title='Free Draw' sx={{ bgcolor: `${SelectedShape == 'freeDraw' && 'orange'}` }}>
+        <IconButton onClick={() => { setIsErasing(false), selectBtn('freeDraw') }} color="primary" title='Free Draw' sx={{ bgcolor: `${SelectedShape == 'freeDraw' && 'orange'}` }}>
           <Icon icon="material-symbols:draw" />
+        </IconButton>
+
+        <IconButton onClick={() => selectBtn('text')} color="primary" title='Text Tool' sx={{ bgcolor: `${SelectedShape === 'text' && 'orange'}` }}>
+          <Icon icon="mdi:format-text" />
         </IconButton>
 
         <IconButton onClick={() => selectBtn('line')} color="primary" title='Line coming soon' sx={{ bgcolor: `${SelectedShape == 'line' && 'orange'}` }}>

@@ -3,18 +3,20 @@ import { signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider } from 
 import { auth } from "./fireBase";
 import { Box, Button, TextField, Typography, Container, Alert, Stack } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import { useSnackbar } from 'notistack';
 
 const Login = ({ onLoginSuccess }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-
   const navigate = useNavigate();
+  const { enqueueSnackbar } = useSnackbar(); // Hook to show snackbar
 
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
       await signInWithEmailAndPassword(auth, email, password);
+      enqueueSnackbar('Login successful!', { variant: 'success' });
       onLoginSuccess();
     } catch (err) {
       setError(err.message);
@@ -25,6 +27,7 @@ const Login = ({ onLoginSuccess }) => {
     const provider = new GoogleAuthProvider();
     try {
       await signInWithPopup(auth, provider);
+      enqueueSnackbar('Google login successful!', { variant: 'success' });
       onLoginSuccess();
     } catch (err) {
       setError(err.message);
