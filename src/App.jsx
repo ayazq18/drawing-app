@@ -9,6 +9,7 @@ import { onAuthStateChanged, getIdToken } from 'firebase/auth';
 import { auth } from './components/fireBase';
 import NavBar from './components/navBar';
 import DrawingToolbar from './components/toolBar';
+import TextInput from './components/textInput';
 
 let socket;
 
@@ -22,6 +23,7 @@ function App() {
   const canvasRef = useRef(null);
   const [undoStack, setUndoStack] = useState([]);
   const [redoStack, setRedoStack] = useState([]);
+  const [textSettings, setTextSettings] = useState({});
 
   useEffect(() => {
     const initializeSocket = async () => {
@@ -160,7 +162,7 @@ function App() {
               isLoggedIn ? (
                 <>
                   <NavBar />
-                  <Box sx={{ display: 'flex', flexDirection: { xs: 'column', md: 'row' } }}>
+                  <Box sx={{ display: 'flex', flexDirection: { xs: 'column', md: 'row' }, position:'relative' }}>
                     <DrawingToolbar
                       setColor={setColor}
                       setBrushSize={setBrushSize}
@@ -172,6 +174,12 @@ function App() {
                       undo={undo}
                       redo={redo}
                     />
+                    {selectedShape === 'text' && (
+                      <TextInput
+                        setTextSettings={setTextSettings}
+                        setSelectedShape={setSelectedShape}
+                      />
+                    )}
                     <Canvas
                       ref={canvasRef}
                       socket={socket}

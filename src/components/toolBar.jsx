@@ -11,7 +11,6 @@ const DrawingToolbar = ({ setColor, setBrushSize, setIsErasing, isErasing, setCl
   }
   return (
     <Box p={2} bgcolor="white" sx={{ display: 'flex', alignItems: 'flex-start', zIndex: '9' }}>
-      {/* Stack the ColorPicker and Slider vertically */}
       <Stack direction="column" spacing={2} sx={{ mr: 2, }}>
         <ColorPicker setColor={setColor} />
         <Card sx={{ width: 190, mt: 2, p: 2, }}>
@@ -26,7 +25,6 @@ const DrawingToolbar = ({ setColor, setBrushSize, setIsErasing, isErasing, setCl
         </Card>
       </Stack>
 
-      {/* Icons arranged horizontally */}
       <Card sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', p: 1, bgcolor: '#f9f9f9' }}>
         <IconButton onClick={() => { setIsErasing(!isErasing), selectBtn('rubber') }} color="secondary" title='Rubber' sx={{ bgcolor: `${SelectedShape === 'rubber' && 'orange'}` }}>
           <Icon icon="solar:eraser-bold-duotone" />

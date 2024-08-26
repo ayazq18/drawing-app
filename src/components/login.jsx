@@ -98,7 +98,7 @@ const Login = ({ onLoginSuccess }) => {
             </Button>
           </Stack>
         </Box>
-        <Button
+        {/* <Button
           type="button"
           variant="contained"
           color="secondary"
@@ -106,7 +106,7 @@ const Login = ({ onLoginSuccess }) => {
           onClick={handleGoogleLogin}
         >
           Login with Google
-        </Button>
+        </Button> */}
       </Box>
     </Container>
   );
