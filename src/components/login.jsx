@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import { signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 import { auth } from "./fireBase";
-import { Box, Button, TextField, Typography, Container, Alert, Stack } from "@mui/material";
+import { Box, Button, TextField, Typography, Container, Alert, Stack, IconButton } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { useSnackbar } from 'notistack';
+import { Icon } from '@iconify/react';
 
 
 const Login = ({ onLoginSuccess }) => {
@@ -49,9 +50,14 @@ const Login = ({ onLoginSuccess }) => {
           bgcolor: 'background.paper',
         }}
       >
-        <Typography variant="h4" component="h1" gutterBottom>
-          Login
-        </Typography>
+        <Stack direction='row' alignItems='center' gap={2}>
+          <IconButton sx={{ width: '40px', color: 'white' }}>
+            <Icon icon="vscode-icons:file-type-excalidraw" />
+          </IconButton>
+          <Typography variant="h4" component="h1" gutterBottom>
+            Login
+          </Typography>
+        </Stack>
         {error && <Alert severity="error" sx={{ mb: 2 }}>{error}</Alert>}
         <Box
           component="form"

@@ -30,17 +30,17 @@ function App() {
       const user = auth.currentUser;
       if (user) {
         const token = await getIdToken(user);
-        socket = io(
+         socket = io(
           window.location.hostname === 'localhost'
-            ? import.meta.env.VITE_LOCAL_ORIGIN
-            : import.meta.env.VITE_PROD_ORIGIN,
+            ? import.meta.env.VITE_LOCAL_ORIGIN 
+            : import.meta.env.VITE_PROD_ORIGIN, 
           {
             path: '/socket.io',
             query: { token },
-            secure: true, // For HTTPS connections
+            transports: ['websocket'], 
+            withCredentials: true, 
           }
         );
-
 
         socket.on('init-drawing-data', (storedDrawingData) => {
           const canvas = canvasRef.current;

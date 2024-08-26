@@ -54,7 +54,6 @@ function NavBar() {
   const handleLogout = () => {
     signOut(auth)
       .then(() => {
-        // Redirect to the login page after successful logout
         navigate('/login');
       })
       .catch((error) => {

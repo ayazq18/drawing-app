@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { auth } from './fireBase';
-import { Box, Button, TextField, Typography, Alert, Stack } from '@mui/material';
+import { Box, Button, TextField, Typography, Alert, Stack, IconButton, Container } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
+import { Icon } from '@iconify/react';
 
 const Register = () => {
     const [email, setEmail] = useState('');
@@ -30,21 +31,25 @@ const Register = () => {
     };
 
     return (
+    <Container maxWidth="xs">
         <Box
             sx={{
-                maxWidth: '400px',
-                margin: 'auto',
-                padding: '20px',
                 display: 'flex',
                 flexDirection: 'column',
                 alignItems: 'center',
-                justifyContent: 'center',
-                bgcolor: 'white',
-                borderRadius: '8px',
+                mt: 8,
+                p: 2,
+                borderRadius: 1,
                 boxShadow: 3,
+                bgcolor: 'background.paper',
             }}
         >
-            <Typography variant="h5" sx={{ mb: 2 }}>Register</Typography>
+            <Stack direction='row' alignItems='center' gap={2} mb={2}>
+                <IconButton sx={{ width: '40px', color: 'white' }}>
+                    <Icon icon="vscode-icons:file-type-excalidraw" />
+                </IconButton>
+                <Typography variant="h5" sx={{ }}>Register</Typography>
+            </Stack>
             {error && <Alert severity="error" sx={{ mb: 2 }}>{error}</Alert>}
             {success && <Alert severity="success" sx={{ mb: 2 }}>{success}</Alert>}
             <form onSubmit={handleRegister} style={{ width: '100%' }}>
@@ -81,10 +86,9 @@ const Register = () => {
                     </Button>
                     <Button
                         type="submit"
-                        variant="contained"
+                        variant="outlined"
                         color="primary"
                         fullWidth
-                        sx={{ mt: 2 }}
                         onClick={() => navigate('/login')}
 
                     >
@@ -93,6 +97,7 @@ const Register = () => {
                 </Stack>
             </form>
         </Box>
+        </Container>
     );
 };
 
