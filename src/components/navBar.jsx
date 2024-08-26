@@ -5,6 +5,7 @@ import { signOut } from 'firebase/auth';
 import { auth } from './fireBase'; // Adjust the path to your Firebase configuration
 import { Icon } from '@iconify/react';
 import { styled, keyframes, Box } from '@mui/system';
+import { useMediaQuery } from '@mui/material';
 
 const fadeIn = keyframes`
   from {
@@ -30,6 +31,11 @@ const StaggeredText = styled('div')(({ theme }) => ({
 }));
 
 const AnimatedText = ({ text }) => {
+  const isMobile = useMediaQuery('(max-width:600px)');
+
+  if (isMobile) {
+    return null; 
+  }
   return (
     <StaggeredText>
       {text.split('').map((char, index) => (
@@ -72,15 +78,15 @@ function NavBar({userCount}) {
       }}
     >
       <Stack direction='row' alignItems='center' gap={2}>
-        <IconButton sx={{ width: '40px', color: 'white' }}>
+        <IconButton sx={{ width: '40px', color: 'white', }}>
           <Icon icon="vscode-icons:file-type-excalidraw" />
         </IconButton>
 
-        <AnimatedText text="My Drawing Pad" />
+        <AnimatedText text="My Drawing Pad"/>
       </Stack>
 
       <Box sx={{ display: 'flex', justifyContent: 'space-between', gap:2, p:1, alignItems: 'center', color:'black',bgcolor:'#a8cbee', boxShadow: '0px 1px 4px #6965db' }}>
-        <Typography variant="h6">Live Users:</Typography>
+        <Typography variant="h6" sx={{display: {xs:'none'}}}>Live Users:</Typography>
         <Typography sx={{p:1, bgcolor:'#6965db', color:'white' }}>{userCount}</Typography>
       </Box>
 
