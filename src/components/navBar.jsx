@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { signOut } from 'firebase/auth';
 import { auth } from './fireBase'; // Adjust the path to your Firebase configuration
 import { Icon } from '@iconify/react';
-import { styled, keyframes } from '@mui/system';
+import { styled, keyframes, Box } from '@mui/system';
 
 const fadeIn = keyframes`
   from {
@@ -36,7 +36,7 @@ const AnimatedText = ({ text }) => {
         <span
           key={index}
           style={{
-            animationDelay: `${index * 0.1}s`, 
+            animationDelay: `${index * 0.1}s`,
           }}
         >
           {char}
@@ -46,7 +46,7 @@ const AnimatedText = ({ text }) => {
   );
 };
 
-function NavBar() {
+function NavBar({userCount}) {
   const navigate = useNavigate();
 
   const handleLogout = () => {
@@ -68,7 +68,7 @@ function NavBar() {
         justifyContent: 'space-between',
         borderRadius: '8px',
         boxShadow: '1px 1px 4px #6965db',
-        bgcolor:'#f9f9f9'
+        bgcolor: '#f9f9f9'
       }}
     >
       <Stack direction='row' alignItems='center' gap={2}>
@@ -78,6 +78,11 @@ function NavBar() {
 
         <AnimatedText text="My Drawing Pad" />
       </Stack>
+
+      <Box sx={{ display: 'flex', justifyContent: 'space-between', gap:2, p:1, alignItems: 'center', color:'black',bgcolor:'#a8cbee', boxShadow: '0px 1px 4px #6965db' }}>
+        <Typography variant="h6">Live Users:</Typography>
+        <Typography sx={{p:1, bgcolor:'#6965db', color:'white' }}>{userCount}</Typography>
+      </Box>
 
       <Button
         onClick={handleLogout}
@@ -90,8 +95,8 @@ function NavBar() {
           color: 'white',
         }}
       >
-        <IconButton sx={{mr:1, color:'white'}}>
-        <Icon icon="iconamoon:profile-circle-fill" />
+        <IconButton sx={{ mr: 1, color: 'white' }}>
+          <Icon icon="iconamoon:profile-circle-fill" />
         </IconButton>
         Logout
       </Button>

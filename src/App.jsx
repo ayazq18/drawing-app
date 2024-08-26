@@ -20,6 +20,7 @@ function App() {
   const [isErasing, setIsErasing] = useState(false);
   const [clearCanvas, setClearCanvas] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [userCount, setUserCount] = useState(0);
   const canvasRef = useRef(null);
   const [undoStack, setUndoStack] = useState([]);
   const [redoStack, setRedoStack] = useState([]);
@@ -69,6 +70,10 @@ console.log(undoStack)
             setUndoStack([]);
             setRedoStack([]);
           }
+        });
+
+        socket.on('user-count', (count) => {
+          setUserCount(count);
         });
 
         setSelectedShape(localStorage.getItem('shape') && localStorage.getItem('shape'));
@@ -161,7 +166,7 @@ console.log(undoStack)
             element={
               isLoggedIn ? (
                 <>
-                  <NavBar />
+                  <NavBar userCount={userCount}/>
                   <Box sx={{ display: 'flex', flexDirection: { xs: 'column', md: 'row' }, position:'relative' }}>
                     <DrawingToolbar
                       setColor={setColor}
